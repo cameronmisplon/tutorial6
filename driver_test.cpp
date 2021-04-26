@@ -28,67 +28,67 @@ public:
 			return *this;
 		}
 	}
-	nd_vector_t nd_vector_t::operator++ (int){
+	nd_vector_t operator++ (int){
 		nd_vector_t temp = *this;
 		for (vector<double>:iterator i = data.begin(); i!= data.end(); ++i){
 			*i = *i + 1.0;
 		}
 		return temp;
 	}	
-	nd_vector_t & nd_vector_t operator++ (void){
+	nd_vector_t & operator++ (void){
 		for (vector<double>:iterator i = data.begin(); i!= data.end(); ++i){
 			*i = *i + 1.0;
 		}
 		return *this;
 	}
-	nd_vector_t & nd_vector_t::operator+= (const double amount){
+	nd_vector_t & operator+= (const double amount){
 		for (vector<double>:iterator i = data.begin(); i!= data.end(); ++i){
 			*i = *i + amount;
 		}
 		return *this;
 	}
-	nd_vector_t & nd_vector_t::operator+= (const nd_vector_t & rhs) {
+	nd_vector_t & operator+= (const nd_vector_t & rhs) {
 		for (int i=0; i<(this->data).size(); ++i){
 			(this->data)[i] = rhs.data[i]
 		}
 		return *this;
 	}
-	nd_vector_t & nd_vector_t::operator*= (const double multiple) {
+	nd_vector_t & operator*= (const double multiple) {
 		for (vector<double>:iterator i = data.begin(); i!= data.end(); ++i){
 			*i = *i * multiple;
 		}
 		return *this;
 	}
-	nd_vector_t nd_vector_t::operator• (void) {
+	nd_vector_t operator- (void) {
 		nd_vector_t temp = *this;
 		for (vector<double>:iterator i = temp.begin(); i!= temp.end(); ++i){
 			*i = *i * -1;
 		}
 		return temp;
 	}
-	nd_vector_t nd_vector_t::operator+ (const double amount) const{
+	nd_vector_t operator+ (const double amount) const{
 		nd_vector_t temp = *this;
 		temp = temp+=amount;
 		return temp;
 	}
-	nd_vector_t nd_vector_t::operator+ (const nd_vector_t rhs) const{
+	nd_vector_t operator+ (const nd_vector_t rhs) const{
 		nd_vector_t temp = *this;
 		temp = temp+=rhs;
 		return temp;
 	}
-	nd_vector_t nd_vector_t::operator* (const double multiple) const{
+	nd_vector_t operator* (const double multiple) const{
 		nd_vector_t temp = *this;
 		temp = temp*= multiple;
 		return temp;
 	}
-	double & nd_vector_t::operator[] (int index) const{
+	double & operator[] (int index) const{
 		if (index >= (this->data).size() ){
 			cout << "Index out of bounds" << endl;
 			return (this->data)[0];
 		}
 		return (this->data)[index];
 	}
-	double & nd_vector_t::operator! (void) const{
+	double & operator! (void) const{
 		double magnitude = 0.0;
 		for (vector<double>:iterator i = data.begin(); i!= data.end(); ++i){
 			magnitude += ((*i) * (*i));
@@ -316,7 +316,7 @@ TEST_CASE("INDEXING OPERATOR", "[IndexingOperator]") {
 	REQUIRE(is_close(a[1], 2.0));
 	REQUIRE(is_close(a[2], 3.0));
  
-    nd_vector b = { 1.0, 2.0, 3.0 };
+    nd_vector_t b = { 1.0, 2.0, 3.0 };
 	REQUIRE(is_close(b[0]+= 1.0), 2.0));
 	REQUIRE(is_close(b[0]), 2.0));
 }
