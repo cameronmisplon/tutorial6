@@ -49,7 +49,7 @@ public:
 	}
 	nd_vector_t & operator+= (const nd_vector_t & rhs) {
 		for (int i=0; i<(this->data).size(); ++i){
-			(this->data)[i] = rhs.data[i]
+			(this->data)[i] = rhs.data[i];
 		}
 		return *this;
 	}
@@ -59,9 +59,9 @@ public:
 		}
 		return *this;
 	}
-	nd_vector_t operator- (void) {
-		nd_vector_t temp = *this;
-		for (vector<double>::iterator i = temp.begin(); i!= temp.end(); ++i){
+	nd_vector_t operator - (const nd_vector_t & rhs) {
+		nd_vector_t temp = rhs;
+		for (vector<double>::iterator i = temp.data.begin(); i!= temp.data.end(); ++i){
 			*i = *i * -1;
 		}
 		return temp;
@@ -81,23 +81,19 @@ public:
 		temp = temp*= multiple;
 		return temp;
 	}
-	double operator[] (int index) const{
-		if (index >= (this->data).size() ){
-			cout << "Index out of bounds" << endl;
-			return (this->data)[0];
-		}
-		return (this->data)[index];
+	double & operator[] (int index) const{
+		return data[index];
 	}
 	double operator! (void) const{
 		double magnitude = 0.0;
-		for (vector<double>::iterator i = data.begin(); i!= data.end(); ++i){
+		for (vector<double>::const_iterator i = data.begin(); i!= data.end(); ++i){
 			magnitude += ((*i) * (*i));
 		}
 		return sqrt(magnitude);
 	}
-	friend nd_vector_t & operator*(const double multiple, nd_vector_t rhs);
-	friend ostream& operator<<(ostringstream& theStream, const nd_vector_t rhs);
-	friend istream& operator>>(istringstream& theStream, const nd_vector_t rhs);
+	friend nd_vector_t operator*(const double multiple, nd_vector_t rhs);
+	friend ostringstream& operator<<(ostringstream& theStream, const nd_vector_t rhs);
+	friend istringstream& operator>>(istringstream& theStream, const nd_vector_t rhs);
 	
 	vector<double> get_buffer() const {
 		return data;
@@ -108,6 +104,27 @@ public:
 	//TODO 2:implement scalar * nd_vector, << and >> here (as 'friend' operators)
 };
 
+nd_vector_t operator*(const double multiple, nd_vector_t & rhs){
+	nd_vector_t temp = rhs;
+	for (vector<double>::iterator i = temp.data.begin(); i!= temp.data.end(); ++i){
+		*i = *i * multiple;
+	}
+	return temp;
+}
+ostringstream& operator<<(ostringstream& theStream, const nd_vector_t & rhs){
+	for (int i=0; i<rhs.data.size();++i){
+		theStream << rhs.data[i] << " ";
+	}
+	return theStream;
+}
+istringstream& operator>>(istringstream& theStream, nd_vector_t & rhs){
+	for (int i=0; i<rhs.data.size();++i){
+		double temp;
+		theStream >> temp;
+		rhs.data[i] = temp;
+	}
+	return theStream;
+}
 
 
 
@@ -118,27 +135,6 @@ public:
 //tests whether two doubles are close to equal
 bool is_close(const double a, const double b, const double epsilon=0.0000000000001) {
 	return abs(a - b) < epsilon;
-}
-nd_vector_t operator*(const double multiple, nd_vector_t & rhs){
-	nd_vector_t temp = rhs;
-	for (vector<double>::iterator i = temp.data.begin(); i!= temp.data.end(); ++i){
-		*i = *i * multiple;
-	}
-	return temp;
-}
-ostream& operator<<(ostringstream& theStream, const nd_vector_t & rhs){
-	for (int i=0; i<rhs.data.size();++i){
-		theStream << rhs.data[i] << " ";
-	}
-	return theStream;
-}
-istream& operator>>(istringstream& theStream, nd_vector_t & rhs){
-	for (int i=0; i<rhs.data.size();++i){
-		double temp;
-		theStream >> temp;
-		rhs.data[i] = temp;
-	}
-	return theStream;
 }
 
 //TODO 3: after completing the operators, uncomment the define /*const*/->const and see if all code compiles
