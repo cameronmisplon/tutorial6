@@ -81,7 +81,7 @@ public:
 		temp = temp*= multiple;
 		return temp;
 	}
-	double operator[] (int index) const{
+	double & operator[] (int index) const{
 		double temp = data[index];
 		return temp;
 	}
