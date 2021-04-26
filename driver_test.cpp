@@ -59,7 +59,7 @@ public:
 		}
 		return *this;
 	}
-	nd_vector_t operator - (void) {
+	nd_vector_t operator- (void) const{
 		nd_vector_t temp = *this;
 		for (vector<double>::iterator i = temp.data.begin(); i!= temp.data.end(); ++i){
 			*i = *i * -1;
@@ -81,7 +81,7 @@ public:
 		temp = temp*= multiple;
 		return temp;
 	}
-	double & operator[] (int index) const{
+	const double & operator[] (int index) const{
 		return data[index];
 	}
 	double operator! (void) const{
@@ -104,14 +104,14 @@ public:
 	//TODO 2:implement scalar * nd_vector, << and >> here (as 'friend' operators)
 };
 
-nd_vector_t operator*(const double multiple, nd_vector_t & rhs){
+nd_vector_t operator*(const double multiple, nd_vector_t rhs){
 	nd_vector_t temp = rhs;
 	for (vector<double>::iterator i = temp.get_buffer().begin(); i!= temp.get_buffer().end(); ++i){
 		*i = *i * multiple;
 	}
 	return temp;
 }
-ostringstream operator<<(ostringstream theStream, const nd_vector_t & rhs){
+ostringstream operator<<(ostringstream theStream, const nd_vector_t rhs){
 	for (int i=0; i<rhs.get_buffer().size();++i){
 		theStream << (rhs.get_buffer())[i] << " ";
 	}
