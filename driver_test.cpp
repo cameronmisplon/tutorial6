@@ -92,8 +92,8 @@ public:
 		return sqrt(magnitude);
 	}
 	friend nd_vector_t operator*(const double multiple, nd_vector_t rhs);
-	friend ostringstream operator<<(ostringstream theStream, const nd_vector_t rhs);
-	friend istringstream operator>>(istringstream theStream, const nd_vector_t rhs);
+	friend ostringstream & operator<<(ostringstream & theStream, const nd_vector_t & rhs);
+	friend istringstream & operator>>(istringstream & theStream, const nd_vector_t & rhs);
 	
 	vector<double> get_buffer() const {
 		return data;
@@ -111,13 +111,13 @@ nd_vector_t operator*(const double multiple, nd_vector_t rhs){
 	}
 	return temp;
 }
-ostringstream operator<<(ostringstream theStream, const nd_vector_t rhs){
+ostringstream & operator<<(ostringstream & theStream, const nd_vector_t & rhs){
 	for (int i=0; i<rhs.get_buffer().size();++i){
 		theStream << (rhs.get_buffer())[i] << " ";
 	}
 	return theStream;
 }
-istringstream operator>>(istringstream theStream, nd_vector_t & rhs){
+istringstream & operator>>(istringstream & theStream, nd_vector_t & rhs){
 	for (int i=0; i<rhs.get_buffer().size();++i){
 		double temp;
 		theStream >> temp;
