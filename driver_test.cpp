@@ -22,7 +22,7 @@ public:
 	nd_vector_t(const nd_vector_t & rhs) = default; //3
 	nd_vector_t & operator=(const nd_vector_t & rhs) = default; //4
 	nd_vector_t(nd_vector_t && rhs) : data(move(rhs.data)) {} //5
-	nd_vector_t & nd_vector_t::operator=(nd_vector_t && rhs) {  //6
+	nd_vector_t & operator=(nd_vector_t && rhs) {  //6
 		if (this != &rhs) {
 			this->data = move(rhs.data);
 			return *this;
@@ -30,19 +30,19 @@ public:
 	}
 	nd_vector_t operator++ (int){
 		nd_vector_t temp = *this;
-		for (vector<double>:iterator i = data.begin(); i!= data.end(); ++i){
+		for (vector<double>::iterator i = data.begin(); i!= data.end(); ++i){
 			*i = *i + 1.0;
 		}
 		return temp;
 	}	
 	nd_vector_t & operator++ (void){
-		for (vector<double>:iterator i = data.begin(); i!= data.end(); ++i){
+		for (vector<double>::iterator i = data.begin(); i!= data.end(); ++i){
 			*i = *i + 1.0;
 		}
 		return *this;
 	}
 	nd_vector_t & operator+= (const double amount){
-		for (vector<double>:iterator i = data.begin(); i!= data.end(); ++i){
+		for (vector<double>::iterator i = data.begin(); i!= data.end(); ++i){
 			*i = *i + amount;
 		}
 		return *this;
@@ -54,14 +54,14 @@ public:
 		return *this;
 	}
 	nd_vector_t & operator*= (const double multiple) {
-		for (vector<double>:iterator i = data.begin(); i!= data.end(); ++i){
+		for (vector<double>::iterator i = data.begin(); i!= data.end(); ++i){
 			*i = *i * multiple;
 		}
 		return *this;
 	}
 	nd_vector_t operator- (void) {
 		nd_vector_t temp = *this;
-		for (vector<double>:iterator i = temp.begin(); i!= temp.end(); ++i){
+		for (vector<double>::iterator i = temp.begin(); i!= temp.end(); ++i){
 			*i = *i * -1;
 		}
 		return temp;
@@ -81,23 +81,23 @@ public:
 		temp = temp*= multiple;
 		return temp;
 	}
-	double & operator[] (int index) const{
+	double operator[] (int index) const{
 		if (index >= (this->data).size() ){
 			cout << "Index out of bounds" << endl;
 			return (this->data)[0];
 		}
 		return (this->data)[index];
 	}
-	double & operator! (void) const{
+	double operator! (void) const{
 		double magnitude = 0.0;
-		for (vector<double>:iterator i = data.begin(); i!= data.end(); ++i){
+		for (vector<double>::iterator i = data.begin(); i!= data.end(); ++i){
 			magnitude += ((*i) * (*i));
 		}
 		return sqrt(magnitude);
 	}
 	friend nd_vector_t & operator*(const double multiple, nd_vector_t rhs);
-	friend ostream& operator<<(ostream& theStream, const nd_vector_t rhs);
-	friend istream& operator>>(istream& theStream, const nd_vector_t rhs);
+	friend ostream& operator<<(ostringstream& theStream, const nd_vector_t rhs);
+	friend istream& operator>>(istringstream& theStream, const nd_vector_t rhs);
 	
 	vector<double> get_buffer() const {
 		return data;
@@ -121,18 +121,18 @@ bool is_close(const double a, const double b, const double epsilon=0.00000000000
 }
 nd_vector_t operator*(const double multiple, nd_vector_t & rhs){
 	nd_vector_t temp = rhs;
-	for (vector<double>:iterator i = temp.begin(); i!= temp.end(); ++i){
+	for (vector<double>::iterator i = temp.data.begin(); i!= temp.data.end(); ++i){
 		*i = *i * multiple;
 	}
 	return temp;
 }
-ostream& operator<<(ostream& theStream, const nd_vector_t & rhs){
+ostream& operator<<(ostringstream& theStream, const nd_vector_t & rhs){
 	for (int i=0; i<rhs.data.size();++i){
 		theStream << rhs.data[i] << " ";
 	}
 	return theStream;
 }
-istream& operator>>(istream& theStream, nd_vector_t & rhs){
+istream& operator>>(istringstream& theStream, nd_vector_t & rhs){
 	for (int i=0; i<rhs.data.size();++i){
 		double temp;
 		theStream >> temp;
@@ -193,7 +193,7 @@ TEST_CASE("SCALAR ADDITION ASSIGNMENT", "[ScalarAdditionAssignment]") {
 }
 TEST_CASE("VECTOR ADDITION ASSIGNMENT", "[VectorAdditionAssignment]") {
 	nd_vector_t a = { 1.0, 2.0, 3.0 };
-	CONST nd_vector b = { 2.0, 3.5, 4.0 };	
+	CONST nd_vector_t b = { 2.0, 3.5, 4.0 };	
 	const auto c = a += b;
 	SECTION("POST CONDITION VEC a") {
 		const auto buf = a.get_buffer();
@@ -316,9 +316,9 @@ TEST_CASE("INDEXING OPERATOR", "[IndexingOperator]") {
 	REQUIRE(is_close(a[1], 2.0));
 	REQUIRE(is_close(a[2], 3.0));
  
-    nd_vector_t b = { 1.0, 2.0, 3.0 };
-	REQUIRE(is_close(b[0]+= 1.0), 2.0));
-	REQUIRE(is_close(b[0]), 2.0));
+    	nd_vector_t b = { 1.0, 2.0, 3.0 };
+	REQUIRE(is_close((b[0]+= 1.0), 2.0));
+	REQUIRE(is_close((b[0]), 2.0));
 }
 TEST_CASE("MAGNITUDE OPERATOR", "[MagnitudeOperator]") {
 	CONST nd_vector_t a = { 1.6, 0.4, 2.7, 4.8, 3.4 };
