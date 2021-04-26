@@ -81,7 +81,7 @@ public:
 		temp = temp*= multiple;
 		return temp;
 	}
-	double & operator[] (int index) {
+	double & operator[] (int index) const{
 		return data[index];
 	}
 	double operator! (void) const{
@@ -106,7 +106,7 @@ public:
 
 nd_vector_t operator*(const double multiple, nd_vector_t & rhs){
 	nd_vector_t temp = rhs;
-	for (vector<double>::iterator i = temp.get_buffer().begin; i!= temp.get_buffer().end(); ++i){
+	for (vector<double>::iterator i = temp.get_buffer().begin(); i!= temp.get_buffer().end(); ++i){
 		*i = *i * multiple;
 	}
 	return temp;
