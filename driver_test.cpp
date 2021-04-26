@@ -94,6 +94,7 @@ public:
 	}
 	friend nd_vector_t operator*(const double multiple, nd_vector_t rhs);
 	friend ostringstream & operator<<(ostringstream & theStream, const nd_vector_t & rhs);
+	friend ostream & operator<<(ostream & theStream, const nd_vector_t & rhs);
 	friend istringstream & operator>>(istringstream & theStream, const nd_vector_t & rhs);
 	
 	vector<double> get_buffer() const {
@@ -113,6 +114,12 @@ nd_vector_t operator*(const double multiple, nd_vector_t rhs){
 	return temp;
 }
 ostringstream & operator<<(ostringstream & theStream, const nd_vector_t & rhs){
+	for (int i=0; i<rhs.get_buffer().size();++i){
+		theStream << (rhs.get_buffer())[i] << " ";
+	}
+	return theStream;
+}
+ostream & operator<<(ostream & theStream, const nd_vector_t & rhs){
 	for (int i=0; i<rhs.get_buffer().size();++i){
 		theStream << (rhs.get_buffer())[i] << " ";
 	}
