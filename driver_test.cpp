@@ -82,7 +82,7 @@ public:
 		return temp;
 	}
 	double & operator[] (int index) const{
-		double temp = data[index];
+		static double temp = data[index];
 		return temp;
 	}
 	double operator! (void) const{
