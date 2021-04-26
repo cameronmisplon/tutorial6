@@ -59,8 +59,8 @@ public:
 		}
 		return *this;
 	}
-	nd_vector_t operator - (const nd_vector_t & rhs) {
-		nd_vector_t temp = rhs;
+	nd_vector_t operator - (void) {
+		nd_vector_t temp = *this;
 		for (vector<double>::iterator i = temp.data.begin(); i!= temp.data.end(); ++i){
 			*i = *i * -1;
 		}
@@ -81,7 +81,7 @@ public:
 		temp = temp*= multiple;
 		return temp;
 	}
-	double & operator[] (int index) const{
+	double & operator[] (int index) {
 		return data[index];
 	}
 	double operator! (void) const{
@@ -92,8 +92,8 @@ public:
 		return sqrt(magnitude);
 	}
 	friend nd_vector_t operator*(const double multiple, nd_vector_t rhs);
-	friend ostringstream& operator<<(ostringstream& theStream, const nd_vector_t rhs);
-	friend istringstream& operator>>(istringstream& theStream, const nd_vector_t rhs);
+	friend ostringstream operator<<(ostringstream theStream, const nd_vector_t rhs);
+	friend istringstream operator>>(istringstream theStream, const nd_vector_t rhs);
 	
 	vector<double> get_buffer() const {
 		return data;
@@ -106,22 +106,22 @@ public:
 
 nd_vector_t operator*(const double multiple, nd_vector_t & rhs){
 	nd_vector_t temp = rhs;
-	for (vector<double>::iterator i = temp.data.begin(); i!= temp.data.end(); ++i){
+	for (vector<double>::iterator i = temp.get_buffer().begin; i!= temp.get_buffer().end(); ++i){
 		*i = *i * multiple;
 	}
 	return temp;
 }
-ostringstream& operator<<(ostringstream& theStream, const nd_vector_t & rhs){
-	for (int i=0; i<rhs.data.size();++i){
-		theStream << rhs.data[i] << " ";
+ostringstream operator<<(ostringstream theStream, const nd_vector_t & rhs){
+	for (int i=0; i<rhs.get_buffer().size();++i){
+		theStream << (rhs.get_buffer())[i] << " ";
 	}
 	return theStream;
 }
-istringstream& operator>>(istringstream& theStream, nd_vector_t & rhs){
-	for (int i=0; i<rhs.data.size();++i){
+istringstream operator>>(istringstream theStream, nd_vector_t & rhs){
+	for (int i=0; i<rhs.get_buffer().size();++i){
 		double temp;
 		theStream >> temp;
-		rhs.data[i] = temp;
+		(rhs.get_buffer())[i] = temp;
 	}
 	return theStream;
 }
